@@ -15,7 +15,11 @@ class Board:
 	draw_board()
 		draws the current version of the board
 	update_board()
-		updates the board to the most recent move"""
+		updates the board to the most recent move
+	get_board()
+		returns the current version of the game board
+	game_over()
+		returns true if the game is over, returns false otherwise"""
 
 	def __init__(self, side_length):
 		"""creates a new instance of the game board """
@@ -32,10 +36,12 @@ class Board:
 			print(current_line.strip())
 
 	def update_board(self, new_board):
-		for row in range(self.side_length):
-			for col in range(self.side_length):
-				self.board[row][col] = new_board[row][col]
+		self.board = new_board
 
-if __name__ == '__main__':
-	game_board = Board(3)
-	game_board.draw_board()
+	def get_board():
+		temp = [[self.board[row][col] for row in range(side_length)] for col in range(side_length)]
+		return temp
+
+	def game_over():
+		# TODO : check if the game is over yet
+		return False
