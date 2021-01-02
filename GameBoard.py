@@ -22,11 +22,13 @@ class Board:
 		returns the current version of the game board
 	game_over()
 		returns true if the game is over, returns false otherwise
-	get_filler
+	get_filler()
 		returns the marking for an empty char
+	get_side_length()
+		returns the side length of the square board
 	"""
 
-	def __init__(self, side_length):
+	def __init__(self, length = 3):
 		"""creates a new instance of the game board
 
 		Parameters
@@ -39,16 +41,14 @@ class Board:
 		ValueError
 			raised when the length of the game board is less than 3
 		"""
-
-		if side_length < 3:
-			raise ValueError('The Dimensions of the game board must at least be 3')
+		if length < 3 or length > 5:
+			raise ValueError('The length you entered was out of range')
 		self.empty_char = '-'
-		self.side_length = side_length
+		self.side_length = length
 		self.board = [[self.empty_char for n in range(self.side_length)] for m in range(self.side_length)]
 
 	def draw_board(self):
 		"""draws the current version of the board"""
-		print('The game board will be a ' + str(self.side_length) + 'x' + str(self.side_length))
 		for i in range(self.side_length):
 			print('\t', end=str(i))
 		print()
@@ -83,14 +83,34 @@ class Board:
 			temp.append(current_row)
 		return temp
 
-	def game_over():
-		"""Returns true if the game should be over"""
-		# TODO : check if the game is over yet
+	def game_over(self, p_one, p_two):
+		"""Returns true if the game should be over
+
+		PARAMETERS
+		__________
+		p_one : Player
+			a player on the board
+		p_two : Player
+			a player on the board
+
+		RETURNS
+		_______
+		True
+			if the game is over
+		False
+			otherwise
+		"""
+		total_turns = p_one.get_turns() + p_two.get_turns()
+		if total_turns == self.side_length * self.side_length:
+			return True
+		elif p_one.has_won(self) or p_two.has_won(self):
+			return True
 		return False
+
 	def get_filler(self):
+		""" accessor for the filler"""
 		return self.empty_char
-if __name__ == '__main__':
-	size = int(input('Enter the length for the dimensions of the board: '))
-	game_one = Board(size)
-	# game_one.draw_board
-	print(game_one.get_board())
+
+	def get_side_length(self):
+		"""accessor for the side length"""
+		return self.side_length
